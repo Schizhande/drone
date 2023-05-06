@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/")
 public class MedicationRestController {
@@ -22,5 +24,10 @@ public class MedicationRestController {
     public Medication loadDrone(@PathVariable long droneId, @Valid @ModelAttribute LoadDroneRequest loadDroneRequest) {
         loadDroneRequest.setDroneId(droneId);
         return medicationService.loadDrone(loadDroneRequest);
+    }
+
+    @GetMapping(value = "/drones/{droneId}/medications")
+    public List<Medication> getMedicationByDroneId(@PathVariable long droneId){
+        return medicationService.findMedicationByDroneId(droneId);
     }
 }

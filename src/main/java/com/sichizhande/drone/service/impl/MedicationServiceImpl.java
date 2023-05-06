@@ -11,6 +11,8 @@ import com.sichizhande.drone.service.MedicationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static com.sichizhande.drone.enums.State.*;
 
 @Slf4j
@@ -58,6 +60,11 @@ public class MedicationServiceImpl implements MedicationService {
         droneService.save(drone);
 
         return medicationRepository.save(medication);
+    }
+
+    @Override
+    public List<Medication> findMedicationByDroneId(long droneId) {
+        return medicationRepository.findAllByDroneId(droneId);
     }
 
     private double validateLoadDrone(Drone drone, LoadDroneRequest loadDroneRequest) {
