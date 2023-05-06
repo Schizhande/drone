@@ -3,6 +3,7 @@ package com.sichizhande.drone.exceptions;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Data
@@ -16,5 +17,12 @@ public class ErrorDetails {
         this.status = status;
         this.message = message;
         this.errors = errors;
+    }
+
+    public ErrorDetails(HttpStatus status, String message) {
+        super();
+        this.status = status;
+        this.message = message;
+        this.errors = new HashMap<>();
     }
 }

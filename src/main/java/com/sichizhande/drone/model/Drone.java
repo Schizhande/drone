@@ -4,6 +4,7 @@ import com.sichizhande.drone.enums.Model;
 import com.sichizhande.drone.enums.State;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 @Getter
@@ -28,6 +29,7 @@ public class Drone {
     @Column(name = "battery_capacity")
     private double batteryCapacity;
 
+    @Setter
     @Column(name = "state")
     @Enumerated(EnumType.STRING)
     private State state;

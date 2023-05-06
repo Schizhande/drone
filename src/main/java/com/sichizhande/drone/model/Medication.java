@@ -2,8 +2,10 @@ package com.sichizhande.drone.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
+@Setter
 @Getter
 @ToString
 @Entity
@@ -25,4 +27,8 @@ public class Medication {
 
     @Column(name = "image")
     private String image;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "drone_id", foreignKey = @ForeignKey(name = "FK_medication_drone"))
+    private Drone drone;
 }

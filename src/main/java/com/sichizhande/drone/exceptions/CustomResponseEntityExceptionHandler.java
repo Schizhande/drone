@@ -8,13 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @ControllerAdvice(annotations = {RestController.class, Controller.class})
 public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
@@ -32,6 +32,24 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
         });
         ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST, String.join(", ", errors.values()), errors);
         return handleExceptionInternal(ex, errorDetails, headers, errorDetails.getStatus(), request);
+    }
+
+    @ExceptionHandler(RecordNotFoundException.class)
+    public final ResponseEntity<ErrorDetails> handleRecordNotFoundException(RecordNotFoundException ex) {
+        ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND, ex.getMessage());
+        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(FileNotFoundException.class)
+    public final ResponseEntity<ErrorDetails> handleFileNotFoundException(FileNotFoundException ex) {
+        ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST, ex.getMessage());
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidRequestException.class)
+    public final ResponseEntity<ErrorDetails> handleInvalidRequestException(InvalidRequestException ex) {
+        ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST, ex.getMessage());
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
 }
