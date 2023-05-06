@@ -9,6 +9,11 @@ import com.sichizhande.drone.service.DroneService;
 import lombok.val;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+import static com.sichizhande.drone.enums.State.IDLE;
+import static com.sichizhande.drone.enums.State.LOADING;
+
 @Service
 public class DroneServiceImpl implements DroneService {
 
@@ -38,5 +43,10 @@ public class DroneServiceImpl implements DroneService {
     @Override
     public void save(Drone drone) {
         droneRepository.save(drone);
+    }
+
+    @Override
+    public List<Drone> availableDrone() {
+        return droneRepository.findAllByStateInAndBatteryCapacityIsGreaterThan(List.of(IDLE, LOADING), 25);
     }
 }
