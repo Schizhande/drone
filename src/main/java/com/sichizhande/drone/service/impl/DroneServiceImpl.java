@@ -3,6 +3,7 @@ package com.sichizhande.drone.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sichizhande.drone.dao.DroneRepository;
 import com.sichizhande.drone.dto.request.RegisterDroneRequest;
+import com.sichizhande.drone.dto.response.DroneBatteryResponse;
 import com.sichizhande.drone.exceptions.RecordNotFoundException;
 import com.sichizhande.drone.model.Drone;
 import com.sichizhande.drone.service.DroneService;
@@ -48,5 +49,11 @@ public class DroneServiceImpl implements DroneService {
     @Override
     public List<Drone> availableDrone() {
         return droneRepository.findAllByStateInAndBatteryCapacityIsGreaterThan(List.of(IDLE, LOADING), 25);
+    }
+
+    @Override
+    public DroneBatteryResponse checkBatteryLevel(long droneId) {
+        val batteryLevel = droneRepository.checkBatteryLevel(droneId);
+        return new DroneBatteryResponse(batteryLevel);
     }
 }

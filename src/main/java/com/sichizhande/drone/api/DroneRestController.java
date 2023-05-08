@@ -1,6 +1,7 @@
 package com.sichizhande.drone.api;
 
 import com.sichizhande.drone.dto.request.RegisterDroneRequest;
+import com.sichizhande.drone.dto.response.DroneBatteryResponse;
 import com.sichizhande.drone.model.Drone;
 import com.sichizhande.drone.service.DroneService;
 import jakarta.validation.Valid;
@@ -24,7 +25,12 @@ public class DroneRestController {
     }
 
     @GetMapping("/available")
-    public List<Drone> availableDrone(){
+    public List<Drone> availableDrone() {
         return droneService.availableDrone();
+    }
+
+    @GetMapping("/{droneId}/battery")
+    public DroneBatteryResponse checkBatteryLevel(@PathVariable long droneId) {
+        return droneService.checkBatteryLevel(droneId);
     }
 }
