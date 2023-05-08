@@ -8,6 +8,8 @@ import com.sichizhande.drone.exceptions.RecordNotFoundException;
 import com.sichizhande.drone.model.Drone;
 import com.sichizhande.drone.service.DroneService;
 import lombok.val;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -55,5 +57,10 @@ public class DroneServiceImpl implements DroneService {
     public DroneBatteryResponse checkBatteryLevel(long droneId) {
         val batteryLevel = droneRepository.checkBatteryLevel(droneId);
         return new DroneBatteryResponse(batteryLevel);
+    }
+
+    @Override
+    public Page<Drone> findAll(PageRequest pageRequest) {
+        return droneRepository.findAll(pageRequest);
     }
 }
